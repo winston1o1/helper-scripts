@@ -1,0 +1,8 @@
+dist/
+helper_scripts.egg*
+env/
+.env/
+__pycache__/
+*.config.ini
+*.json
+*.env

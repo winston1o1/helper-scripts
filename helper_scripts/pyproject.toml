@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "helper_scripts"
+version = "0.4.0"
+description = "Database Helper Package"
+authors = [{ name = "Samuel Kizza", email = "SK8@gmail.com" },{ name = "Winston David Ssentongo", email = "winstondavid96@gmail.com" }]
+maintainers = [{ name = "Winston David Ssentongo", email = "winstondavid96@gmail.com" }]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent"
+]
+requires-python = ">=3.5"
+dependencies = [
+    "psycopg2",
+    "google-api-python-client"
+]
+
+[project.urls]
+homepage = "https://github.com/winston1o1/helper-scripts.git"
+
+[tool.setuptools]
+packages = ['database_handler','send_mail','google_drive']
