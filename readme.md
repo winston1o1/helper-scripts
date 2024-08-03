@@ -78,3 +78,60 @@ This code defines a class called `SendMail` that is responsible for sending emai
 16. If an exception occurs during the process, it is raised.
 
 Overall, this code provides a class that encapsulates the functionality to send emails with attachments using an email server specified in a configuration file.
+
+### GoogleDrive
+# Description of the Code
+
+This Python code defines a class `worker` that provides various functionalities to interact with Google Drive using the Google Drive API. Below is a description of the key components and functionalities of this code:
+
+## Imports
+
+- **mimetypes**: To guess the MIME type of a file.
+- **HttpError**: To handle errors from the Google API client.
+- **get_service**: A custom import likely used to get a Google API service instance.
+- **MediaFileUpload**: For handling file uploads to Google Drive.
+- **io**: To handle input/output operations.
+- **datetime**: To handle date and time operations.
+- **os.path, os.getcwd**: To handle file path operations.
+
+## Class `worker`
+
+### Class Attributes
+
+- **scope_readonly**: Scope for read-only access to Google Drive.
+- **scope_write**: Scope for read and write access to Google Drive.
+- **initial_download_path**: Default path for downloading files, set to the current working directory.
+
+### Constructor
+
+- `__init__(self, api_name='drive', api_version='v3', key_file_location='')`: Initializes the class with API name, version, and the location of the key file.
+
+### Methods
+
+1. **construct_service(self, scope: str = None)**:
+   - Constructs and returns a Google Drive service instance with the specified scope.
+
+2. **read_drive_files(self, scope=scope_readonly, file_id: str = None, filename: str = None, ignore_trashed=True)**:
+   - Reads files from Google Drive based on file ID or filename, with an option to ignore trashed files.
+
+3. **download_drive_file(self, file_id=None, download_path=initial_download_path, filename=None, scope=scope_write)**:
+   - Downloads a file from Google Drive based on file ID or filename to a specified download path.
+
+4. **upload_file_to_drive(self, scope=scope_write, filename=None, file_path=None, parent_folder_id=None, mimetype=None, coerce=True)**:
+   - Uploads a file to Google Drive with the specified parameters.
+
+5. **get_file_permissions(self, file_id=None)**:
+   - Retrieves and returns the permissions of a specified file on Google Drive.
+
+6. **delete_drive_files(self, file_ids: list = [], reset=False)**:
+   - Deletes specified files from Google Drive. If `reset` is True, it deletes all files.
+
+### Error Handling
+
+- The code handles errors using `try-except` blocks and returns appropriate error messages and codes.
+
+### Usage
+
+- The class `worker` can be instantiated and used to interact with Google Drive, performing operations like reading, downloading, uploading, checking permissions, and deleting files.
+
+This code provides a structured way to interact with Google Drive using the Google Drive API, encapsulating the logic within a class for ease of use and reusability.

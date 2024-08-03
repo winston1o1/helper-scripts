@@ -46,7 +46,7 @@ class worker():
 
             fetched_items = False
 
-            if file_id is not None and filename is None:
+            if file_id is not None:
                 file_id = str(file_id)
                 file_by_id = service.files().get(fileId=file_id).execute()
                 files = {"files": [file_by_id]}
