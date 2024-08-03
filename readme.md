@@ -1,8 +1,7 @@
-
 # HELPER SCRIPTS
 >>> Built for data professionals by data professionals.
 
-Note: Despite the tagline, this package can be used by anyone
+Note: Despite the tagline, this package can be used by anyone.
 
 ## PACKAGE DESCRIPTION
 ### DatabaseHandler
@@ -80,33 +79,21 @@ This code defines a class called `SendMail` that is responsible for sending emai
 Overall, this code provides a class that encapsulates the functionality to send emails with attachments using an email server specified in a configuration file.
 
 ### GoogleDrive
-# Description of the Code
+This code defines a class `worker` that provides various functionalities to interact with Google Drive using the Google Drive API. Below is a description of the key components and functionalities of this code:
 
-This Python code defines a class `worker` that provides various functionalities to interact with Google Drive using the Google Drive API. Below is a description of the key components and functionalities of this code:
+#### Class `worker`
 
-## Imports
-
-- **mimetypes**: To guess the MIME type of a file.
-- **HttpError**: To handle errors from the Google API client.
-- **get_service**: A custom import likely used to get a Google API service instance.
-- **MediaFileUpload**: For handling file uploads to Google Drive.
-- **io**: To handle input/output operations.
-- **datetime**: To handle date and time operations.
-- **os.path, os.getcwd**: To handle file path operations.
-
-## Class `worker`
-
-### Class Attributes
+##### Class Attributes
 
 - **scope_readonly**: Scope for read-only access to Google Drive.
 - **scope_write**: Scope for read and write access to Google Drive.
 - **initial_download_path**: Default path for downloading files, set to the current working directory.
 
-### Constructor
+##### Constructor
 
 - `__init__(self, api_name='drive', api_version='v3', key_file_location='')`: Initializes the class with API name, version, and the location of the key file.
 
-### Methods
+##### Methods
 
 1. **construct_service(self, scope: str = None)**:
    - Constructs and returns a Google Drive service instance with the specified scope.
@@ -130,7 +117,7 @@ This Python code defines a class `worker` that provides various functionalities 
 
 - The code handles errors using `try-except` blocks and returns appropriate error messages and codes.
 
-### Usage
+#### Usage
 
 - The class `worker` can be instantiated and used to interact with Google Drive, performing operations like reading, downloading, uploading, checking permissions, and deleting files.
 

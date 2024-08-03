@@ -27,6 +27,7 @@ jobs:
           pip install setuptools wheel build
       - name: Build package
         run: |
+          python cmd/move_external_files.py
           python -m build --outdir ./dist helper_scripts
       - name: Publish package distributions to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
