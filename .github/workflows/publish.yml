@@ -31,6 +31,3 @@ jobs:
           python -m build --outdir ./dist helper_scripts
       - name: Publish package distributions to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
-        with:
-            user: ${{ secrets.PYPI_USERNAME }}
-            password: ${{ secrets.PYPI_PASSWORD }}

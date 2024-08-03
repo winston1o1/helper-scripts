@@ -6,3 +6,5 @@ __pycache__/
 *.config.ini
 *.json
 *.env
+helper_scripts/readme*
+helper_scripts/LICENSE*
