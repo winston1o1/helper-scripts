@@ -8,9 +8,8 @@ jobs:
   pypi-publish:
     name: Publish helper_scripts release to PyPI
     runs-on: ubuntu-latest
-    environment:
-      name: pypi
-      url: https://pypi.org/p/helper-scripts
+    # environment: 
+    #   - name: release
     permissions:
       id-token: write
     steps:
