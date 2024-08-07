@@ -2,7 +2,7 @@ import psycopg2
 from psycopg2.extras import DictCursor
 import sys
 
-from helper_scripts import ConfigHandler as ConfigParser
+from database_handler.ConfigParser import ConfigHandler
 
 
 class DatabaseHandler(object):
@@ -17,7 +17,7 @@ class DatabaseHandler(object):
     
     def read_db_config(self):
         #get database section
-        config_parser = ConfigParser(self.config_file,self.config_file_section)
+        config_parser = ConfigHandler(self.config_file,self.config_file_section)
         db = config_parser.read_config()
 
         return db

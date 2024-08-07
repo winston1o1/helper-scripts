@@ -3,7 +3,6 @@ from setuptools import setup
 setup(
     name = 'helper_scripts',
     packages = ['database_handler','send_mail','google_drive'],
-    version='0.4.0',
     author='Samuel Kizza & Winston Ssentongo',
     author_email= 'winstondavid96@gmail.com',
     maintainer='Winston David Ssentongo',

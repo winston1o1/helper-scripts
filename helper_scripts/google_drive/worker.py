@@ -7,6 +7,12 @@ from datetime import datetime as dt
 
 from os import path,getcwd
 
+_mimetypes_ = {
+    'xlsx':'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    'csv':'text/csv',
+    'xls':'application/vnd.ms-excel',
+    'pdf':'application/pdf'
+}
 
 class worker():
     scope_readonly = 'https://www.googleapis.com/auth/drive.metadata.readonly'
@@ -28,6 +34,7 @@ class worker():
         
     def read_drive_files(self,scope=scope_readonly,file_id:str = None,filename:str = None, ignore_trashed=True):
         apply_query = False
+        is_id_search = False
 
         try:
             service = self.construct_service(scope=scope)
@@ -50,11 +57,13 @@ class worker():
                 file_id = str(file_id)
                 file_by_id = service.files().get(fileId=file_id).execute()
                 files = {"files": [file_by_id]}
-            
-            if apply_query:
-                files = service.files().list(q=query_filter).execute()
-            else:
-                files = service.files().list().execute()
+                is_id_search = True
+
+            if is_id_search != True:
+                if apply_query:
+                    files = service.files().list(q=query_filter).execute()
+                else:
+                    files = service.files().list().execute()
 
             json_files_array = files.get('files')
             if json_files_array:
@@ -70,7 +79,7 @@ class worker():
             # TODO
             return {'code':-999,'error':error}
 
-    def download_drive_file(self,file_id = None,download_path=initial_download_path,filename=None,scope=scope_write):
+    def download_drive_file(self,file_id = None,download_path=initial_download_path,filename=None,scope=scope_write,export=False,filetype=None,mimetype=None,export_name=None):
         if file_id is None and filename is None:
             return {'code':-999,'error':'file_id or filename must be provided'}
         
@@ -108,7 +117,38 @@ class worker():
                 idx = res_file_ids.index(res_file_id)
                 res_filename = res_filenames[idx]
 
-                request = service.files().get_media(fileId=res_file_id).execute()
+                if export:
+                    config_filetype = filetype
+                    config_mimetype = mimetype
+                    if config_filetype == None and config_mimetype == None:
+                        return {'code':-999,'error': "Both mimetype and filetype can't be none"}
+
+                    if config_mimetype is None:
+                        _mimetype_ = _mimetypes_[config_filetype]
+                    else:
+                        _mimetype_ = config_mimetype
+
+                    if config_filetype is None:
+                        if _mimetype_ is not None:
+                            for key,value in _mimetypes_.items:
+                                if value == _mimetype_.lower():
+                                    config_filetype = key
+                                    break
+                        else:
+                            return {'code':-999,'error':"Unble to detect file type. Please specify it"}
+
+
+                    request = service.files().export_media(fileId=file_id, mimeType=_mimetype_).execute()
+                    if str(config_filetype).startswith('.'):
+                        config_filetype = config_filetype[1]
+
+                    if export_name is not None:
+                        res_filename = f'{export_name}.{str(config_filetype)}'
+                    else:
+                        res_filename = f'{config_filetype}.{str(config_filetype)}'
+                else:
+                    request = service.files().get_media(fileId=res_file_id).execute()
+
                 file_bytes = io.BytesIO(request)
 
                 full_download_path = path.join(download_path, res_filename)
@@ -199,6 +239,3 @@ class worker():
 
         except HttpError as error:
             return {'code':-999,'error':error}
-
-
-        
