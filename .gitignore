@@ -8,3 +8,5 @@ __pycache__/
 *.env
 helper_scripts/readme*
 helper_scripts/LICENSE*
+helper_scripts/database_handler/ConfigParser.py
+helper_scripts/send_mail/ConfigParser.py

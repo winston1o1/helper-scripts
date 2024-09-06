@@ -44,5 +44,5 @@ class TestSendMail(unittest.TestCase):
             SendMail.send_email("", self.subject, self.email_recepients)
 
 if __name__ == "__main__":
-    # unittest.main()
-    pass
+    unittest.main()
+    # pass

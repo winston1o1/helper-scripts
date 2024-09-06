@@ -24,3 +24,11 @@ if __name__ == "__main__":
     move_file(
         os.path.join(base_dir,'LICENSE'), os.path.join(base_dir,'helper_scripts','LICENSE')
         )
+    
+    move_file(
+        os.path.join(base_dir,'helper_scripts','ConfigParser.py'), os.path.join(base_dir,'helper_scripts','database_handler','ConfigParser.py')
+        )
+    
+    move_file(
+        os.path.join(base_dir,'helper_scripts','ConfigParser.py'), os.path.join(base_dir,'helper_scripts','send_mail','ConfigParser.py')
+        )
