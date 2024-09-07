@@ -51,9 +51,9 @@ class DatabaseHandler(object):
         """Create a cursor
         :return: cursor
         """
-        if self.cursor is not None:
-            self.cursor.close()
-            self.cursor = None
+        # if self.cursor is not None:
+        #     self.cursor.close()
+        #     self.cursor = None
 
         if self.conn is None or self.conn.closed:
             self.connect()
@@ -68,14 +68,20 @@ class DatabaseHandler(object):
         if self.conn and not self.conn.closed:
             self.conn.close()
         self.conn = None
+        self.cursor = None
+        return
 
     def commit(self):
         """Commit currently open transaction"""
-        self.conn.commit()
+        if self.conn:
+            self.conn.commit()
+        return
 
     def rollback(self):
         """Roll back currently open transaction"""
-        self.conn.rollback()
+        if self.conn:
+            self.conn.rollback()
+        return
 
     def execute(self, query,args=None):
         """Create a cursor, execute a query and return the cursor
@@ -83,24 +89,23 @@ class DatabaseHandler(object):
         :param args: arguments to query
         :return: cursor
         """
-        curs = self.get_cursor()
+        if self.cursor:
+            curs = self.cursor
+        else:
+            curs = self.get_cursor()
 
         try:
-            curs.execute(query, args)
+            if args:
+                return curs.execute(query, args)
+            else:
+                return curs.execute(query)
         except Exception as exc:
             if self.conn:
-                self.conn.rollback()
-
-            raise exc
-        
-        finally:
-            if curs:
-                curs.close()
-            
-            if self.conn:
+                self.rollback()
                 self.close()
 
-        return curs
+            raise exc
+
 
     def fetchone(self, query, args=None):
         """Execute a single row SELECT query and return row
