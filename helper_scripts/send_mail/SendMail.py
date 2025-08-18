@@ -38,7 +38,6 @@ class SendMail:
             port = params['port']
             smtp_server = params['smtp_server']
             sender_email = params['sender_email']
-            #sender_username = params['sender_username']
             login_email = params['sender_username']
             password = params['password']
             platform = params['platform']
@@ -54,7 +53,7 @@ class SendMail:
             <html>
             <head></head>
             <body>
-            <p>Hello Team.
+            <p>Hello All,
             <br> 
             %s 
             </p>

@@ -1,1 +1,1 @@
-from excel_tooling.toolbox import toolbox
+from excel_tooling.toolbox import excel_toolbox
