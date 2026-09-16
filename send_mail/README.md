@@ -3,7 +3,7 @@
 
 ## Overview
 
-`SendMail` is a utility class for sending emails with optional attachments, configurable through a `.config.ini` file. It supports retrying email delivery using a secondary email server in the event of SMTP errors.
+`SendMail` is a utility class for sending emails with optional attachments, configurable through a `.config.ini` or `.env` file. It supports retrying email delivery using a secondary email server in the event of SMTP errors.
 
 This module is intended for developers who want to programmatically send emails from Python applications with minimal setup.
 
@@ -13,7 +13,7 @@ This module is intended for developers who want to programmatically send emails 
 
 - Python 3.6+
 - `smtplib`, `ssl`, and `email` (all standard libraries)
-- A `.config.ini` file in your working directory with the appropriate email server configuration
+- A `.config.ini` file (or a `.env` file) in your working directory with the appropriate email server configuration
 
 ---
 
@@ -39,6 +39,27 @@ sender_email = backup_email@example.com
 sender_username = backup_username
 password = backup_password
 platform = backup
+```
+
+You can also use a `.env` file instead of `.config.ini`. In `.env` files the
+section name becomes an uppercase `SECTION__KEY` prefix:
+
+```env
+# section: email_server
+EMAIL_SERVER__SMTP_SERVER=smtp.example.com
+EMAIL_SERVER__PORT=587
+EMAIL_SERVER__SENDER_EMAIL=your_email@example.com
+EMAIL_SERVER__SENDER_USERNAME=your_username
+EMAIL_SERVER__PASSWORD=your_password
+EMAIL_SERVER__PLATFORM=example
+
+# section: secondary_server
+SECONDARY_SERVER__SMTP_SERVER=smtp.backup.com
+SECONDARY_SERVER__PORT=587
+SECONDARY_SERVER__SENDER_EMAIL=backup_email@example.com
+SECONDARY_SERVER__SENDER_USERNAME=backup_username
+SECONDARY_SERVER__PASSWORD=backup_password
+SECONDARY_SERVER__PLATFORM=backup
 ```
 
 ---
@@ -82,8 +103,9 @@ Send an email with HTML content and optional file attachments.
 | `email_recepients`   | `list[str]` | List of recipient email addresses                                          |
 | `file_attachments`   | `list[str]` | (Optional) List of file paths to attach to the email                       |
 | `attempt`            | `int`       | (Optional) Retry counter, defaults to `0`. Handled internally.             |
-| `email_server`       | `str`       | The name of the primary config section in `.config.ini`                    |
+| `email_server`       | `str`       | The name of the primary config section in the config file                  |
 | `extra_email_server` | `str`       | The name of the secondary config section (used if primary fails)           |
+| `config_file`        | `str`       | Path to the config file (`.config.ini` or `.env`). Defaults to `.config.ini` |
 
 **Returns:**
 

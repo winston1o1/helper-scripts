@@ -3,6 +3,52 @@
 
 Note: Despite the tagline, this package can be used by anyone.
 
+## CONFIGURATION
+
+`DatabaseHandler` and `SendMail` read their settings from a configuration
+file. Both `.config.ini` (INI) and `.env` formats are supported and chosen
+automatically by the file extension. Example files are included in this
+repository (`.config.ini.example` and `.env.example`) — copy one to the matching
+name and fill in your values.
+
+### `.config.ini`
+
+INI sections map directly to configuration keys:
+
+```ini
+[db_server]
+host = localhost
+port = 5432
+dbname = my_database
+user = postgres
+password = your_password
+
+[email_server]
+smtp_server = smtp.example.com
+port = 587
+sender_email = you@example.com
+sender_username = your_username
+password = your_password
+platform = example
+```
+
+### `.env`
+
+`.env` files have no sections, so the section name becomes an uppercase prefix
+separated from keys by a double underscore (`SECTION__KEY`). Keys are returned
+lowercased, so `DB_SERVER__HOST` maps to `host`:
+
+```env
+DB_SERVER__HOST=localhost
+DB_SERVER__PORT=5432
+DB_SERVER__DBNAME=my_database
+DB_SERVER__USER=postgres
+DB_SERVER__PASSWORD=your_password
+```
+
+If the `.env` file is not found, the same variables are read from the live
+operating system environment instead.
+
 ## PACKAGE DESCRIPTION
 ### DatabaseHandler
 This code defines a class called `DatabaseHandler` that provides methods for interacting with a PostgreSQL database.

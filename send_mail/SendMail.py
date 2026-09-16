@@ -12,19 +12,19 @@ from .ConfigParser import ConfigHandler as ConfigParser
 
 class SendMail:
     @staticmethod
-    def send_email(email_message: str, subject: str, email_recepients: list, file_attachments=[], attempt=0, email_server='email_server',extra_email_server = 'secondary_server'): 
+    def send_email(email_message: str, subject: str, email_recepients: list, file_attachments=[], attempt=0, email_server='email_server',extra_email_server = 'secondary_server', config_file='.config.ini'): 
         try:
             if attempt <= 0:
                 attempt = 0
 
             if attempt <= 1 and attempt >= 0:
-                config = ConfigParser('.config.ini', email_server)
+                config = ConfigParser(config_file, email_server)
                 params = config.read_config()
             elif attempt < 5 and attempt > 1:
                 if extra_email_server is None:
                     raise Exception("No Secondary Email Server Name provided")
                 
-                config = ConfigParser('.config.ini', extra_email_server)
+                config = ConfigParser(config_file, extra_email_server)
                 params = config.read_config()
             else:
                 raise Exception("Emailing attempt stopped at 5 tries")
@@ -92,10 +92,10 @@ class SendMail:
         except SMTPDataError as e:
             if attempt == 0:
                 print(f"SMTPDataError occurred, retrying attempt 2")
-                SendMail.send_email(email_message, subject, email_recepients, file_attachments, attempt=attempt+1, email_server=email_server,extra_email_server=extra_email_server)
+                SendMail.send_email(email_message, subject, email_recepients, file_attachments, attempt=attempt+1, email_server=email_server, extra_email_server=extra_email_server, config_file=config_file)
             elif attempt < 5 and attempt > 0:
                 print(f"SMTPDataError occurred, retrying attempt {attempt+2}")
-                SendMail.send_email(email_message, subject, email_recepients, file_attachments, attempt=attempt+1, extra_email_server=extra_email_server)
+                SendMail.send_email(email_message, subject, email_recepients, file_attachments, attempt=attempt+1, extra_email_server=extra_email_server, config_file=config_file)
             else:
                 error_code, error_message = e.smtp_code, e.smtp_error
                 

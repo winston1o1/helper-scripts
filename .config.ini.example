@@ -1,0 +1,30 @@
+; Example configuration for helper_scripts.
+; Copy this file to `.config.ini` and replace the placeholder values.
+;
+; See readme.md for full documentation.
+
+; --- PostgreSQL database (used by DatabaseHandler) ---
+[db_server]
+host = localhost
+port = 5432
+dbname = my_database
+user = postgres
+password = your_password
+
+; --- Primary email server (used by SendMail) ---
+[email_server]
+smtp_server = smtp.example.com
+port = 587
+sender_email = you@example.com
+sender_username = your_username
+password = your_password
+platform = example
+
+; --- Secondary email server (fallback, used by SendMail) ---
+[secondary_server]
+smtp_server = smtp.backup.com
+port = 587
+sender_email = backup@example.com
+sender_username = backup_username
+password = backup_password
+platform = backup
