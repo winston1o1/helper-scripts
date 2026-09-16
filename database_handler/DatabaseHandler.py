@@ -191,79 +191,127 @@ class DatabaseHandler(object):
         self.cursor.close()
         return rows
 
-    def copy_to(self, path, table, sep=','):
-        """Execute a COPY command to a file
-        :param path: file name/path to copy into
-        :param table: possibly schema qualified table name
-        :param sep: separator between columns
+    def _require_postgres(self):
+        """Raise if the handler is not configured for PostgreSQL.
+
+        The COPY methods rely on psycopg2 cursor methods (``copy_to``,
+        ``copy_from``, ``copy_expert``), which do not exist on the MariaDB
+        or MySQL drivers.
+
+        :raises NotImplementedError: if ``self.database_type`` is not ``"postgres"``
         """
+        if self.database_type != "postgres":
+            raise NotImplementedError(
+                "COPY operations are only supported for PostgreSQL, not '%s'"
+                % self.database_type
+            )
+
+    def copy_to(self, path, table, sep=','):
+        """Copy a whole table to a local file (PostgreSQL only).
+
+        Uses psycopg2's ``cursor.copy_to``, which streams the server-side
+        ``COPY <table> TO STDOUT`` result into ``path``.
+
+        :param path: destination file to write the data into (opened as text)
+        :param table: possibly schema-qualified table name to export
+        :param sep: column separator used in the output (default: ',')
+        :raises NotImplementedError: if the handler is not configured for PostgreSQL
+        """
+        self._require_postgres()
+
         if self.conn is None or self.conn.closed:
             self.connect()
-        if self.cursor is None:
+        if self.cursor is None or self.cursor.closed:
             self.get_cursor()
 
         with open(path, 'w') as f:
             curs = self.cursor
             try:
                 curs.copy_to(f, table, sep)
-            except:
+            except Exception:
                 curs.close()
+                self.rollback()
                 raise
 
     def sql_copy_to(self, sql, path):
-        """Execute an SQL COPY command to a file
-        :param sql: SQL copy command
-        :param path: file name/path to copy into
+        """Execute a raw SQL ``COPY ... TO STDOUT`` command to a file (PostgreSQL only).
+
+        Uses psycopg2's ``cursor.copy_expert``, which allows a full COPY
+        statement (custom ``FORMAT``, ``HEADER``, ``DELIMITER``, or a filtered
+        ``SELECT``) rather than just a table name.
+
+        :param sql: a complete ``COPY ... TO STDOUT`` statement
+        :param path: destination file to write the data into (opened as text)
+        :raises NotImplementedError: if the handler is not configured for PostgreSQL
         """
+        self._require_postgres()
+
         if self.conn is None or self.conn.closed:
             self.connect()
 
-        if self.cursor is None:
+        if self.cursor is None or self.cursor.closed:
             self.get_cursor()
 
         with open(path, 'w') as f:
             curs = self.cursor
             try:
                 curs.copy_expert(sql, f)
-            except:
+            except Exception:
                 curs.close()
+                self.rollback()
                 raise
     
     def sql_copy_from(self, sql, path):
-        """Execute an SQL COPY command from a file
-        :param sql: SQL copy command
-        :param path: file name/path to copy from
+        """Execute a raw SQL ``COPY ... FROM STDIN`` command from a file (PostgreSQL only).
+
+        Uses psycopg2's ``cursor.copy_expert`` to load data from ``path`` into
+        the database using a full COPY statement.
+
+        :param sql: a complete ``COPY ... FROM STDIN`` statement
+        :param path: source file to read the data from (opened as text)
+        :raises NotImplementedError: if the handler is not configured for PostgreSQL
         """
+        self._require_postgres()
+
         if self.conn is None or self.conn.closed:
             self.connect()
 
-        if self.cursor is None:
+        if self.cursor is None or self.cursor.closed:
             self.get_cursor()
 
         with open(path, 'r') as f:
             curs = self.cursor
             try:
                 curs.copy_expert(sql, f)
-            except:
+            except Exception:
                 curs.close()
+                self.rollback()
                 raise
 
     def copy_from(self, path, table, sep=','):
-        """Execute a COPY command from a file
-        :param path: file name/path to copy from
-        :param table: possibly schema qualified table name
-        :param sep: separator between columns
+        """Copy a whole table from a local file (PostgreSQL only).
+
+        Uses psycopg2's ``cursor.copy_from``, which streams the contents of
+        ``path`` into ``table`` via the server-side ``COPY <table> FROM STDIN``.
+
+        :param path: source file to read the data from (opened as text)
+        :param table: possibly schema-qualified table name to import into
+        :param sep: column separator used in the input (default: ',')
+        :raises NotImplementedError: if the handler is not configured for PostgreSQL
         """
+        self._require_postgres()
+
         if self.conn is None or self.conn.closed:
             self.connect()
 
-        if self.cursor is None:
+        if self.cursor is None or self.cursor.closed:
             self.get_cursor()
 
         with open(path, 'r') as f:
             curs = self.cursor
             try:
                 curs.copy_from(f, table, sep)
-            except:
+            except Exception:
                 curs.close()
+                self.rollback()
                 raise
