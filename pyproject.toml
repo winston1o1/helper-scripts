@@ -17,8 +17,14 @@ classifiers = [
 ]
 requires-python = ">=3.5"
 dependencies = [
-    "psycopg2",
-    "google-api-python-client"
+    "psycopg2>=2.9",
+    "google-api-python-client>=2.130.0"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7",
+    "pytest-cov>=4"
 ]
 
 [project.urls]
@@ -27,3 +33,7 @@ homepage = "https://github.com/winston1o1/helper-scripts.git"
 
 [tool.setuptools]
 packages = ["database_handler", "send_mail", "google_drive", "excel_tooling", "helper_scripts"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--cov=database_handler,send_mail,google_drive,excel_tooling --cov-report=term-missing --cov-fail-under=80"
