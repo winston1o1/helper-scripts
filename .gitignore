@@ -3,6 +3,11 @@ helper_scripts.egg*
 env/
 .env/
 __pycache__/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+.pytest_cache/
 *.config.ini
 *.json
 *.env
