@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "helper_scripts"
 description = "Database Helper Package"
-version = "0.4.3"
+version = "0.5.0"
 readme = {file = "readme.md", content-type = "text/markdown"}
 license = {file = "LICENSE"}
 authors = [{ name = "Winston David Ssentongo", email = "winstondavid96@gmail.com" },{ name = "Samuel Kizza", email = "SK8@gmail.com" }]
