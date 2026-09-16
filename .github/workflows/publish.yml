@@ -27,7 +27,21 @@ jobs:
           pip install setuptools wheel build
       - name: Build package
         run: |
-          python cmd/move_external_files.py
-          python -m build --outdir ./dist helper_scripts
+          python -m build --outdir ./dist .
+      - name: Verify published import contract
+        run: |
+          python -m venv /tmp/verify-install
+          /tmp/verify-install/bin/pip install --upgrade pip
+          /tmp/verify-install/bin/pip install ./dist/*.whl
+          /tmp/verify-install/bin/python -c "
+          from database_handler import DB
+          from send_mail import SendMail
+          from google_drive import worker, get_service
+          from excel_tooling import toolbox
+          from helper_scripts import DB as DB2
+          from helper_scripts.database_handler import DB as DB3
+          assert DB is DB2 is DB3
+          print('import contract OK: database_handler.DB, send_mail.SendMail, google_drive.worker/get_service, excel_tooling.toolbox, helper_scripts compat aliases')
+          "
       - name: Publish package distributions to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1

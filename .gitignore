@@ -6,7 +6,7 @@ __pycache__/
 *.config.ini
 *.json
 *.env
-helper_scripts/readme*
-helper_scripts/LICENSE*
-helper_scripts/database_handler/ConfigParser.py
-helper_scripts/send_mail/ConfigParser.py
+.penv/
+.opencode/
+.claude/
+.temp/

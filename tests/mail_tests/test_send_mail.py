@@ -1,7 +1,7 @@
 import unittest
 from config import Config #import this to add the module to sys path
 
-from helper_scripts.send_mail.SendMail import SendMail
+from send_mail.SendMail import SendMail
 
 class TestSendMail(unittest.TestCase):
 

@@ -26,4 +26,4 @@ homepage = "https://github.com/winston1o1/helper-scripts.git"
 
 
 [tool.setuptools]
-packages = ['database_handler','send_mail','google_drive']
+packages = ["database_handler", "send_mail", "google_drive", "excel_tooling", "helper_scripts"]

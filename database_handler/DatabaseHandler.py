@@ -2,7 +2,7 @@ from typing import Any, Optional, Union, overload
 import psycopg2
 import sys
 
-from database_handler.ConfigParser import ConfigHandler
+from .ConfigParser import ConfigHandler
 
 
 # Import optional DB driver cursor classes

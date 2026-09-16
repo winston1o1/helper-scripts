@@ -1,2 +1,0 @@
-from database_handler.DatabaseHandler import DatabaseHandler as DB
-from database_handler.ConfigParser import ConfigHandler

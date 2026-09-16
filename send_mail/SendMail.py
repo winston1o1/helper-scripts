@@ -7,7 +7,7 @@ from email.mime.multipart import MIMEMultipart
 from email import encoders
 from os import path
 
-from send_mail.ConfigParser import ConfigHandler as ConfigParser
+from .ConfigParser import ConfigHandler as ConfigParser
 
 
 class SendMail:

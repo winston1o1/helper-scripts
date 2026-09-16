@@ -3,7 +3,7 @@ from config import Config #import this to add the module to sys path
 from datetime import datetime as dt
 from os import remove,path
 
-from helper_scripts.google_drive import worker,get_service
+from google_drive import worker, get_service
 
 class TestGoogleDrive(unittest.TestCase):
     def setUp(self):

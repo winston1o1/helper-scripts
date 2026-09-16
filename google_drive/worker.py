@@ -1,6 +1,6 @@
 import mimetypes
 from googleapiclient.errors import HttpError
-from google_drive import get_service
+from .build_service import get_service
 from googleapiclient.http import MediaFileUpload
 import io
 from datetime import datetime as dt
