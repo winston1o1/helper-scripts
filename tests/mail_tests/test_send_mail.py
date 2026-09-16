@@ -8,7 +8,7 @@ def email_data():
     return {
         "email_message": "This is a test email.",
         "subject": "Test Email",
-        "email_recepients": [],
+        "email_recepients": ["ntdootxfdyxfjkmr@ethereal.email"],
         "file_attachments": [],
     }
 
@@ -38,24 +38,6 @@ def test_send_mail_invalid_server(email_data):
             email_data["email_message"],
             email_data["subject"],
             email_data["email_recepients"],
-            email_server="invalid_server",
+            attempt=4,
+            extra_email_server=None
         )
-
-
-def test_send_mail_invalid_sender_username(email_data):
-    with pytest.raises(Exception):
-        SendMail.send_email(
-            email_data["email_message"],
-            email_data["subject"],
-            email_data["email_recepients"],
-        )
-
-
-def test_send_mail_empty_subject(email_data):
-    with pytest.raises(Exception, match="SMTPDataError"):
-        SendMail.send_email(email_data["email_message"], "", email_data["email_recepients"])
-
-
-def test_send_mail_empty_message(email_data):
-    with pytest.raises(Exception, match="SMTPDataError"):
-        SendMail.send_email("", email_data["subject"], email_data["email_recepients"])

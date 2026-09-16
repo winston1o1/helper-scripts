@@ -156,7 +156,7 @@ class DatabaseHandler(object):
         """
         if cursor_type is None:
             if args:
-                self.execute(query, args)
+                self.execute(query, args=args)
             else:
                 self.execute(query)
         else:
@@ -178,7 +178,7 @@ class DatabaseHandler(object):
         """
         if cursor_type is None:
             if args:
-                self.execute(query, args)
+                self.execute(query, args=args)
             else:
                 self.execute(query)
         else:

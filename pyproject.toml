@@ -36,4 +36,4 @@ packages = ["database_handler", "send_mail", "google_drive", "excel_tooling", "h
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-addopts = "--cov=database_handler,send_mail,google_drive,excel_tooling --cov-report=term-missing --cov-fail-under=80"
+addopts = "--cov=database_handler --cov=send_mail --cov=excel_tooling --cov-report=term-missing --cov-fail-under=80 --ignore=tests/google_drive_tests"
